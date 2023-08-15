@@ -1,0 +1,13 @@
+# Python
+*.log
+*.pot
+*.pyc
+.env
+__pycache__
+
+# Dumb files
+.DS_Store
+/.idea/
+*.orig
+desktop.ini
+Thumbs.db
