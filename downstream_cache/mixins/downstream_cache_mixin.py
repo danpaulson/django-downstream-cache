@@ -5,7 +5,7 @@ from django.utils.cache import cc_delim_re, patch_vary_headers
 from rest_framework.response import Response
 
 
-class DownstreamCacheViewMixin:
+class DownstreamCacheMixin:
     cache_tags = []
     max_age = None
 
@@ -19,7 +19,7 @@ class DownstreamCacheViewMixin:
     def dispatch(self, request, *args, **kwargs):
         if not self.cache_tags:
             self.cache_tags = []
-        return super(DownstreamCacheViewMixin, self).dispatch(request, *args, **kwargs)
+        return super(DownstreamCacheMixin, self).dispatch(request, *args, **kwargs)
 
     def add_headers(self, response):
         if self.cache_tags:
