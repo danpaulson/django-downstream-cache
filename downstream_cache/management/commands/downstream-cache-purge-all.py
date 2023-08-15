@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 
-from core.downstream_cache.clients import DownstreamCacheClient
+from downstream_cache.clients import DownstreamCacheClient
 
 
 class Command(BaseCommand):
