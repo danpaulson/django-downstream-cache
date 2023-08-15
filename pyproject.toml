@@ -1,0 +1,3 @@
+[project]
+name = "django-downstream-cache"
+description = "A suite of tools for caching Django responses downstream of the web server."
