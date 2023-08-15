@@ -9,4 +9,8 @@ class Command(BaseCommand):
         parser.add_argument('prefix', type=str, nargs='?', default=None)
 
     def handle(self, *args, **options):
+        """
+        Purge cache by prefix
+        Ex: domain.com/foo
+        """
         DownstreamCacheClient().purge_by_prefix(prefix=options['prefix'])

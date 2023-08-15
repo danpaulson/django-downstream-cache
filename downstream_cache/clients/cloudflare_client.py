@@ -8,22 +8,22 @@ class CloudflareClient:
 
     def __init__(self):
         pass
-    
+
     def purge_all_cache(self):
         api_url = f"{self.base_api_url}{settings.CLOUDFLARE_ZONE}/purge_cache"
         headers = {
             "Authorization": f"Bearer {settings.CLOUDFLARE_PURGE_TOKEN}",
             "Content-Type": "application/json"
-            }
+        }
         payload = '{"purge_everything":true}'
         r = requests.post(api_url, headers=headers, data=payload)
-    
+
     def purge_by_tags(self, tags: list):
         api_url = f"{self.base_api_url}{settings.CLOUDFLARE_ZONE}/purge_cache"
         headers = {
             "Authorization": f"Bearer {settings.CLOUDFLARE_PURGE_TOKEN}",
             "Content-Type": "application/json"
-            }
+        }
         tags = '","'.join(tags)
         payload = f'{{"tags":["{tags}"]}}'
         r = requests.post(api_url, headers=headers, data=payload)
@@ -33,15 +33,19 @@ class CloudflareClient:
         headers = {
             "Authorization": f"Bearer {settings.CLOUDFLARE_PURGE_TOKEN}",
             "Content-Type": "application/json"
-            }
+        }
         payload = f'{{"files":[{{"url":"{url}"}}]}}'
         r = requests.post(api_url, headers=headers, data=payload)
-    
+
     def purge_by_prefix(self, prefix: str):
         api_url = f"{self.base_api_url}{settings.CLOUDFLARE_ZONE}/purge_cache"
         headers = {
             "Authorization": f"Bearer {settings.CLOUDFLARE_PURGE_TOKEN}",
             "Content-Type": "application/json"
-            }
+        }
+
+        if hasattr(settings, 'DOWNSTREAM_CACHE_DOMAIN'):
+            prefix = f'{settings.DOWNSTREAM_CACHE_DOMAIN}{prefix}'
+
         payload = f'{{"prefixes":["{prefix}"]}}'
         r = requests.post(api_url, headers=headers, data=payload)
