@@ -1,5 +1,10 @@
 #!/usr/bin/env python
+from setuptools import setup
 
-if __name__ == "__main__":
-    import setuptools 
-    setuptools.setup(name="django-downstream-cache")
+setup(
+    name="django-payments",
+    author="Dan Paulson",
+    author_email="danpaulson@gmail.com",
+    description="Simple downstream cache tools for Django",
+    version='1.15.4',
+)
