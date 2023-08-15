@@ -1,3 +1,4 @@
+import logging
 import requests
 
 from django.conf import settings
@@ -29,6 +30,7 @@ class CloudflareClient:
         r = requests.post(api_url, headers=headers, data=payload)
 
     def purge_by_url(self, url: str):
+        logging.info(f'Purging Cloudflare cache for url: {url}')
         api_url = f"{self.base_api_url}{settings.CLOUDFLARE_ZONE}/purge_cache"
         headers = {
             "Authorization": f"Bearer {settings.CLOUDFLARE_PURGE_TOKEN}",
@@ -44,8 +46,11 @@ class CloudflareClient:
             "Content-Type": "application/json"
         }
 
+        # Add cached domain for prefix calls if set and not in prefix
         if hasattr(settings, 'DOWNSTREAM_CACHE_DOMAIN'):
-            prefix = f'{settings.DOWNSTREAM_CACHE_DOMAIN}{prefix}'
+            if not prefix.startswith(settings.DOWNSTREAM_CACHE_DOMAIN):
+                prefix = f'{settings.DOWNSTREAM_CACHE_DOMAIN}{prefix}'
 
+        logging.info(f'Purging Cloudflare cache for prefix: {prefix}')
         payload = f'{{"prefixes":["{prefix}"]}}'
         r = requests.post(api_url, headers=headers, data=payload)
