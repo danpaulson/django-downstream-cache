@@ -1,3 +1,5 @@
+from typing import Union, List, Optional
+
 from django.conf import settings
 from django.http.response import HttpResponseBase
 from django.utils.cache import cc_delim_re, patch_vary_headers
@@ -9,13 +11,19 @@ class DownstreamCacheMixin:
     cache_tags = []
     max_age = None
 
-    def add_cache_tags(self, keys):
+    def add_cache_tags(self, tags: Optional[Union[str, List[str]]] = None):
         """
         Args:
             keys ([array]): [Array of header key strings]
         """
-        self.cache_tags += keys
-    
+        if tags is None:
+            return
+
+        if isinstance(tags, str):
+            keys = [tags]
+
+        self.cache_tags += tags
+
     def dispatch(self, request, *args, **kwargs):
         if not self.cache_tags:
             self.cache_tags = []
@@ -30,7 +38,6 @@ class DownstreamCacheMixin:
         if self.max_age is not None:
             response['Cache-Control'] = 's-maxage=%s' % self.max_age
 
-
     def render_to_response(self, context, **response_kwargs):
         """
         Return a response, using the `response_class` for this view, with a
@@ -38,7 +45,7 @@ class DownstreamCacheMixin:
         Pass response_kwargs to the constructor of the response class.
         """
         response_kwargs.setdefault('content_type', self.content_type)
-        
+
         response = self.response_class(
             request=self.request,
             template=self.get_template_names(),
@@ -48,7 +55,7 @@ class DownstreamCacheMixin:
         )
 
         self.add_headers(response)
-        
+
         return response
 
     # This is used for Django REST requests
