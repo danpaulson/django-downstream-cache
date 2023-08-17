@@ -2,6 +2,7 @@ import importlib
 
 from typing import (
     List,
+    Union,
 )
 
 from django.conf import settings
@@ -33,11 +34,14 @@ class DownstreamCacheClient:
 
         self.client.purge_by_url(url)
 
-    def purge_by_tags(self, tags: List[str]):
+    def purge_by_tag(self, tags: Union[str, List[str]]):
         if not settings.DOWNSTREAM_CACHE_CLEAR_CACHE:
             return 'Cache purge is disabled'
 
-        self.client.purge_by_tags(tags)
+        if isinstance(tags, str):
+            tags = [tags]
+
+        self.client.purge_by_tag(tags)
 
     def purge_by_prefix(self, prefix: str):
         if not settings.DOWNSTREAM_CACHE_CLEAR_CACHE:

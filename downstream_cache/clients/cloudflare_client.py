@@ -19,7 +19,7 @@ class CloudflareClient:
         payload = '{"purge_everything":true}'
         r = requests.post(api_url, headers=headers, data=payload)
 
-    def purge_by_tags(self, tags: list):
+    def purge_by_tag(self, tags: list):
         api_url = f"{self.base_api_url}{settings.CLOUDFLARE_ZONE}/purge_cache"
         headers = {
             "Authorization": f"Bearer {settings.CLOUDFLARE_PURGE_TOKEN}",
