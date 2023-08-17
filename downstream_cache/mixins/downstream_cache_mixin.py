@@ -20,7 +20,7 @@ class DownstreamCacheMixin:
             return
 
         if isinstance(tags, str):
-            keys = [tags]
+            tags = [tags]
 
         self.cache_tags += tags
 
