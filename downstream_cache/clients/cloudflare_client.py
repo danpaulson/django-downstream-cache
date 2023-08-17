@@ -11,6 +11,7 @@ class CloudflareClient:
         pass
 
     def purge_all_cache(self):
+        logging.info('Purging Cloudflare cache for all')
         api_url = f"{self.base_api_url}{settings.CLOUDFLARE_ZONE}/purge_cache"
         headers = {
             "Authorization": f"Bearer {settings.CLOUDFLARE_PURGE_TOKEN}",
@@ -20,6 +21,7 @@ class CloudflareClient:
         r = requests.post(api_url, headers=headers, data=payload)
 
     def purge_by_tag(self, tags: list):
+        logging.info(f'Purging Cloudflare cache for tags: {tags}')
         api_url = f"{self.base_api_url}{settings.CLOUDFLARE_ZONE}/purge_cache"
         headers = {
             "Authorization": f"Bearer {settings.CLOUDFLARE_PURGE_TOKEN}",
@@ -40,6 +42,7 @@ class CloudflareClient:
         r = requests.post(api_url, headers=headers, data=payload)
 
     def purge_by_prefix(self, prefix: str):
+        logging.info(f'Purging Cloudflare cache for prefix: {prefix}')
         api_url = f"{self.base_api_url}{settings.CLOUDFLARE_ZONE}/purge_cache"
         headers = {
             "Authorization": f"Bearer {settings.CLOUDFLARE_PURGE_TOKEN}",
