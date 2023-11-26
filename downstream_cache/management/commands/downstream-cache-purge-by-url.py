@@ -1,4 +1,3 @@
-from django.conf import settings
 from django.core.management.base import BaseCommand
 
 from downstream_cache.clients import DownstreamCacheClient
