@@ -8,8 +8,13 @@ from rest_framework.response import Response
 
 
 class DownstreamCacheMixin:
-    cache_tags = []
+    cache_tags = None
     max_age = None
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.cache_tags = []
+        self.max_age = None
 
     def add_cache_tags(self, tags: Optional[Union[str, List[str]]] = None):
         """
