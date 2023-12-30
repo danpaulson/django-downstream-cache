@@ -15,6 +15,8 @@ class DownstreamCacheMixin:
         super().__init__(*args, **kwargs)
         if self.cache_tags is None:
             self.cache_tags = []
+        else:
+            self.cache_tags = self.cache_tags[:]
         self.max_age = None
 
     def add_cache_tags(self, tags: Optional[Union[str, List[str]]] = None):
