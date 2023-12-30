@@ -6,5 +6,5 @@ setup(
     author="Dan Paulson",
     author_email="danpaulson@gmail.com",
     description="Simple downstream cache tools for Django",
-    version='1.0.2',
+    version='1.0.3',
 )
