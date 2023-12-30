@@ -13,7 +13,8 @@ class DownstreamCacheMixin:
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.cache_tags = []
+        if self.cache_tags is None:
+            self.cache_tags = []
         self.max_age = None
 
     def add_cache_tags(self, tags: Optional[Union[str, List[str]]] = None):
@@ -38,7 +39,7 @@ class DownstreamCacheMixin:
         if self.cache_tags:
             # Unique out the list before adding headers to prevent duplicates
             self.cache_tags = list(set(self.cache_tags))
-            response[settings.DOWNSTREAM_CACHE_HEADER_NAME] = ' '.join(self.cache_tags)
+            response[settings.DOWNSTREAM_CACHE_HEADER_NAME] = ','.join(self.cache_tags)
 
         if self.max_age is not None:
             response['Cache-Control'] = 's-maxage=%s' % self.max_age
