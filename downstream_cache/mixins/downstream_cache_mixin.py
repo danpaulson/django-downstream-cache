@@ -17,7 +17,6 @@ class DownstreamCacheMixin:
             self.cache_tags = []
         else:
             self.cache_tags = self.cache_tags[:]
-        self.max_age = None
 
     def add_cache_tags(self, tags: Optional[Union[str, List[str]]] = None):
         """
