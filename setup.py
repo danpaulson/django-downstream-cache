@@ -6,5 +6,9 @@ setup(
     author="Dan Paulson",
     author_email="danpaulson@gmail.com",
     description="Simple downstream cache tools for Django",
-    version='1.0.6',
+    version='1.0.7',
+    install_requires=[
+        'django',
+        'requests',
+    ]
 )
