@@ -25,6 +25,15 @@ class DownstreamCacheClient:
 
         self.client.purge_all_cache()
 
+    def purge_by_host(self, hosts: Union[str, List[str]]):
+        if not settings.DOWNSTREAM_CACHE_CLEAR_CACHE:
+            return 'Cache purge is disabled'
+
+        if isinstance(hosts, str):
+            hosts = [hosts]
+
+        self.client.purge_by_host(hosts)
+
     def purge_by_url(self, url: str):
         if not settings.DOWNSTREAM_CACHE_CLEAR_CACHE:
             return 'Cache purge is disabled'
